@@ -1,0 +1,13 @@
+node_modules/
+
+# per-run data (resumes, job info, generated PDFs) — never commit user data
+runs/*
+!runs/.gitkeep
+
+# local samples produced during testing
+assets/samples/*.generated.*
+
+*.log
+.DS_Store
+.env
+.env.*

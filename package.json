@@ -1,0 +1,32 @@
+{
+  "name": "cv-generator",
+  "version": "1.0.0",
+  "description": "Local web app whose AI engine is your Cursor IDE agent: tailors your resume to a specific job, optimizes it for ATS, and renders an ATS-safe, human-sounding PDF.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "score": "node src/atsScore.js",
+    "render": "node src/render.js"
+  },
+  "keywords": [
+    "resume",
+    "cv",
+    "ats",
+    "job-application",
+    "cursor",
+    "ai-agent"
+  ],
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "mammoth": "^1.12.0",
+    "multer": "^2.2.0",
+    "pdf-parse": "^2.4.5",
+    "puppeteer": "^25.1.0"
+  }
+}

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{NAME}} Resume</title>
+    <style>
+      :root {
+        --accent: {{ACCENT}};
+      }
+{{CSS}}
+    </style>
+  </head>
+  <body>
+    <article class="resume">
+      <header class="head">
+        <h1 class="name">{{NAME}}</h1>
+        {{HEADLINE}}
+        <div class="contact">{{CONTACT}}</div>
+      </header>
+      {{SUMMARY}}
+      {{SKILLS}}
+      {{EXPERIENCE}}
+      {{PROJECTS}}
+      {{EDUCATION}}
+      {{CERTIFICATIONS}}
+      {{EXTRAS}}
+    </article>
+  </body>
+</html>

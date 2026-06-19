@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CV Generator — tailor your resume to any job</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              ink: "#0b1220",
+              panel: "#121a2b",
+              panel2: "#0f1626",
+              line: "#243149",
+              accent: "#22d3ee",
+              accent2: "#6366f1",
+            },
+            fontFamily: {
+              sans: ["Inter", "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Arial"],
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background:
+          radial-gradient(1100px 600px at 12% -10%, rgba(99, 102, 241, 0.16), transparent 60%),
+          radial-gradient(1000px 600px at 100% 0%, rgba(34, 211, 238, 0.12), transparent 55%),
+          #0b1220;
+      }
+      .card {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0)) , #121a2b;
+        border: 1px solid #243149;
+        border-radius: 16px;
+      }
+      .field {
+        background: #0f1626;
+        border: 1px solid #243149;
+        border-radius: 10px;
+        color: #e6edf7;
+      }
+      .field:focus {
+        outline: none;
+        border-color: #6366f1;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+      }
+      .dropzone {
+        border: 1.5px dashed #2c3a57;
+        border-radius: 14px;
+        transition: all 0.15s ease;
+        background: #0f1626;
+      }
+      .dropzone.drag {
+        border-color: #22d3ee;
+        background: rgba(34, 211, 238, 0.06);
+      }
+      .tabbtn.active {
+        background: #1b2740;
+        color: #fff;
+        border-color: #2c3a57;
+      }
+      .chip {
+        border-radius: 999px;
+        font-size: 12px;
+        padding: 3px 10px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .bar {
+        height: 8px;
+        border-radius: 999px;
+        background: #1a2336;
+        overflow: hidden;
+      }
+      .bar > span {
+        display: block;
+        height: 100%;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #22d3ee, #6366f1);
+        transition: width 0.5s ease;
+      }
+      .gauge-track {
+        stroke: #1a2336;
+      }
+      .spin {
+        animation: spin 0.9s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .fade-in {
+        animation: fade 0.35s ease both;
+      }
+      @keyframes fade {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+      }
+      ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #243149;
+        border-radius: 999px;
+      }
+      /* chat bubbles */
+      .bubble {
+        max-width: 86%;
+        padding: 9px 12px;
+        border-radius: 14px;
+        font-size: 13px;
+        line-height: 1.5;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+      .bubble.ai {
+        background: #0f1626;
+        border: 1px solid #243149;
+        border-bottom-left-radius: 5px;
+        color: #e6edf7;
+      }
+      .bubble.me {
+        background: linear-gradient(90deg, rgba(34, 211, 238, 0.16), rgba(99, 102, 241, 0.16));
+        border: 1px solid #2c3a57;
+        border-bottom-right-radius: 5px;
+        color: #f1f6ff;
+      }
+      .bubble.q {
+        border-left: 3px solid #22d3ee;
+      }
+      .typing span {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        margin: 0 1px;
+        border-radius: 50%;
+        background: #6b7a99;
+        animation: blink 1.2s infinite both;
+      }
+      .typing span:nth-child(2) { animation-delay: 0.2s; }
+      .typing span:nth-child(3) { animation-delay: 0.4s; }
+      @keyframes blink { 0%, 80%, 100% { opacity: 0.2; } 40% { opacity: 1; } }
+    </style>
+  </head>
+  <body class="font-sans text-slate-200 min-h-screen">
+    <!-- Top bar -->
+    <header class="border-b border-line/70 backdrop-blur sticky top-0 z-20 bg-ink/70">
+      <div class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="h-9 w-9 rounded-xl bg-gradient-to-br from-accent to-accent2 grid place-items-center text-ink font-extrabold">
+            CV
+          </div>
+          <div>
+            <div class="font-bold tracking-tight leading-none">CV Generator</div>
+            <div class="text-[11px] text-slate-400 leading-none mt-1">Tailor your resume to any job</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 text-xs">
+          <span id="enginePill" class="chip bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
+            <span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span> Engine: your Cursor agent
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-5 py-8">
+      <!-- ============================ INPUT VIEW ============================ -->
+      <div id="inputView">
+        <div class="mb-7">
+          <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+            Build a resume that fits the job like a glove.
+          </h1>
+          <p class="text-slate-400 mt-1 max-w-2xl">
+            Drop in your current resume and the job details. Your Cursor agent rewrites, reorders and
+            keyword-optimizes it for ATS — truthfully — then you refine it together in a live chat.
+          </p>
+        </div>
+
+        <div class="grid lg:grid-cols-5 gap-6">
+          <!-- LEFT: inputs -->
+          <section class="lg:col-span-3 space-y-6">
+            <!-- Resume -->
+            <div class="card p-5">
+              <div class="flex items-center gap-2 mb-3">
+                <span class="text-xs font-bold text-ink bg-accent rounded-md px-2 py-0.5">1</span>
+                <h2 class="font-semibold text-white">Your current resume</h2>
+              </div>
+              <div id="resumeDrop" class="dropzone p-6 text-center cursor-pointer">
+                <input id="resumeInput" type="file" accept=".pdf,.docx,.txt,.md" class="hidden" />
+                <div id="resumeEmpty">
+                  <div class="text-slate-300 font-medium">Drop your resume here, or click to browse</div>
+                  <div class="text-xs text-slate-500 mt-1">PDF, DOCX, TXT or MD</div>
+                </div>
+                <div id="resumeChosen" class="hidden">
+                  <div class="text-accent font-semibold" id="resumeName">file.pdf</div>
+                  <button id="resumeRemove" class="text-xs text-slate-400 hover:text-rose-300 mt-1 underline">
+                    remove
+                  </button>
+                </div>
+              </div>
+              <button id="pasteToggle" class="text-xs text-slate-400 hover:text-slate-200 mt-3 underline">
+                or paste resume text instead
+              </button>
+              <textarea
+                id="resumeText"
+                class="field w-full p-3 text-sm mt-2 hidden"
+                rows="6"
+                placeholder="Paste the full text of your current resume…"
+              ></textarea>
+            </div>
+
+            <!-- Job info -->
+            <div class="card p-5">
+              <div class="flex items-center gap-2 mb-3">
+                <span class="text-xs font-bold text-ink bg-accent rounded-md px-2 py-0.5">2</span>
+                <h2 class="font-semibold text-white">The job you're applying for</h2>
+              </div>
+
+              <div class="flex gap-2 mb-4">
+                <button data-tab="paste" class="tabbtn active text-sm px-3 py-1.5 rounded-lg border border-transparent text-slate-300">
+                  Paste text
+                </button>
+                <button data-tab="shots" class="tabbtn text-sm px-3 py-1.5 rounded-lg border border-transparent text-slate-300">
+                  LinkedIn screenshots
+                </button>
+              </div>
+
+              <div id="tab-paste" class="space-y-3">
+                <div class="grid sm:grid-cols-2 gap-3">
+                  <input id="jobTitle" class="field w-full p-2.5 text-sm" placeholder="Job title (e.g. Senior Backend Engineer)" />
+                  <input id="companyName" class="field w-full p-2.5 text-sm" placeholder="Company name" />
+                </div>
+                <textarea id="jobDescription" class="field w-full p-3 text-sm" rows="5" placeholder="Job description…"></textarea>
+                <div class="grid sm:grid-cols-2 gap-3">
+                  <textarea id="requirements" class="field w-full p-3 text-sm" rows="4" placeholder="Requirements / qualifications…"></textarea>
+                  <textarea id="responsibilities" class="field w-full p-3 text-sm" rows="4" placeholder="Responsibilities…"></textarea>
+                </div>
+                <textarea id="aboutCompany" class="field w-full p-3 text-sm" rows="3" placeholder="About the company (optional)…"></textarea>
+              </div>
+
+              <div id="tab-shots" class="hidden">
+                <div id="shotDrop" class="dropzone p-6 text-center cursor-pointer">
+                  <input id="shotInput" type="file" accept="image/*" multiple class="hidden" />
+                  <div class="text-slate-300 font-medium">Drop LinkedIn job screenshots here</div>
+                  <div class="text-xs text-slate-500 mt-1">
+                    The agent reads the images directly — capture the description, requirements & responsibilities.
+                  </div>
+                </div>
+                <div id="shotGrid" class="grid grid-cols-3 sm:grid-cols-4 gap-2 mt-3"></div>
+              </div>
+
+              <p class="text-xs text-slate-500 mt-3">Use either or both. More signal = a better-tailored resume.</p>
+            </div>
+
+            <!-- Options -->
+            <div class="card p-5">
+              <div class="flex items-center gap-2 mb-3">
+                <span class="text-xs font-bold text-ink bg-accent rounded-md px-2 py-0.5">3</span>
+                <h2 class="font-semibold text-white">Output options</h2>
+              </div>
+              <div class="flex flex-wrap items-center gap-6">
+                <label class="flex items-center gap-3 text-sm">
+                  <span class="text-slate-300">Accent color</span>
+                  <input id="accent" type="color" value="#1f4d7a" class="h-9 w-12 rounded-md bg-transparent border border-line cursor-pointer" />
+                </label>
+                <label class="flex items-center gap-3 text-sm">
+                  <span class="text-slate-300">Page size</span>
+                  <select id="pageSize" class="field p-2 text-sm">
+                    <option value="Letter">Letter (US)</option>
+                    <option value="A4">A4</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+
+            <button
+              id="runBtn"
+              class="w-full py-3.5 rounded-xl font-bold text-ink bg-gradient-to-r from-accent to-accent2 hover:opacity-95 disabled:opacity-40 disabled:cursor-not-allowed transition"
+              disabled
+            >
+              Run — tailor my resume
+            </button>
+            <p id="hint" class="text-center text-xs text-slate-500">Add a resume and some job details to begin.</p>
+          </section>
+
+          <!-- RIGHT: how it works -->
+          <section class="lg:col-span-2">
+            <div class="card p-5 lg:sticky lg:top-24">
+              <h2 class="font-semibold text-white mb-3">How it works</h2>
+              <ol class="space-y-4 text-sm">
+                <li class="flex gap-3">
+                  <span class="h-6 w-6 shrink-0 rounded-full bg-panel2 border border-line grid place-items-center text-xs font-bold text-accent">1</span>
+                  <div><span class="text-slate-200 font-medium">Add your resume + the job.</span>
+                    <div class="text-slate-400 text-xs mt-0.5">Paste text or drop LinkedIn screenshots.</div></div>
+                </li>
+                <li class="flex gap-3">
+                  <span class="h-6 w-6 shrink-0 rounded-full bg-panel2 border border-line grid place-items-center text-xs font-bold text-accent">2</span>
+                  <div><span class="text-slate-200 font-medium">The agent tailors & scores it.</span>
+                    <div class="text-slate-400 text-xs mt-0.5">Truthful rewrite, ATS-optimized, clean one-page PDF.</div></div>
+                </li>
+                <li class="flex gap-3">
+                  <span class="h-6 w-6 shrink-0 rounded-full bg-panel2 border border-line grid place-items-center text-xs font-bold text-accent">3</span>
+                  <div><span class="text-slate-200 font-medium">Refine it together, live.</span>
+                    <div class="text-slate-400 text-xs mt-0.5">The AI asks smart questions and edits the preview as you chat — all right here, no need to go back to the IDE.</div></div>
+                </li>
+              </ol>
+              <div class="text-[11px] text-slate-500 mt-5 leading-relaxed border-t border-line pt-3">
+                Truthful tailoring only — no fabricated experience. Everything happens in this page.
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <!-- ============================ STATUS VIEW ============================ -->
+      <div id="statusView" class="hidden">
+        <div class="max-w-xl mx-auto card p-8 mt-6 fade-in">
+          <div class="flex items-center gap-3 text-slate-200">
+            <svg id="statusSpin" class="spin h-5 w-5 text-accent" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="3" stroke-dasharray="42" stroke-linecap="round" opacity="0.85"></circle>
+            </svg>
+            <span id="stepLabel" class="font-semibold text-lg">Submitting…</span>
+          </div>
+          <div class="bar mt-4"><span id="progressBar" style="width: 5%"></span></div>
+          <div id="statusMsg" class="text-sm text-slate-400 mt-3">Waiting for the agent…</div>
+          <div class="text-[11px] text-slate-500 mt-6 leading-relaxed border-t border-line pt-3">
+            The agent picks this up automatically — you don't need to do anything. When it's ready, this turns into a
+            live preview with an AI chat to refine it.
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================ REVIEW VIEW ============================ -->
+      <div id="reviewView" class="hidden fade-in">
+        <!-- summary bar -->
+        <div class="card p-4 mb-5 flex items-center gap-4 flex-wrap">
+          <div class="relative h-16 w-16 shrink-0">
+            <svg viewBox="0 0 120 120" class="h-16 w-16 -rotate-90">
+              <circle class="gauge-track" cx="60" cy="60" r="52" fill="none" stroke-width="12"></circle>
+              <circle id="gaugeArc" cx="60" cy="60" r="52" fill="none" stroke-width="12" stroke-linecap="round"
+                stroke="#22d3ee" stroke-dasharray="327" stroke-dashoffset="327"></circle>
+            </svg>
+            <div class="absolute inset-0 grid place-items-center">
+              <div class="text-center">
+                <div id="scoreNum" class="text-xl font-extrabold text-white leading-none">0</div>
+                <div class="text-[9px] text-slate-400">ATS</div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div id="scoreVerdict" class="font-bold text-white text-lg">—</div>
+            <div class="text-xs text-slate-400">Match against the job description</div>
+          </div>
+          <div class="ml-auto flex items-center gap-2">
+            <a id="downloadBtn" class="text-sm font-semibold px-3.5 py-2 rounded-lg bg-accent text-ink" download>Download PDF</a>
+            <a id="openBtn" target="_blank" class="text-sm font-semibold px-3.5 py-2 rounded-lg border border-line text-slate-200">Open PDF</a>
+            <button id="startOverBtn" class="text-sm font-semibold px-3.5 py-2 rounded-lg border border-line text-slate-300 hover:text-white">New resume</button>
+          </div>
+        </div>
+
+        <div class="grid lg:grid-cols-5 gap-6">
+          <!-- live preview -->
+          <section class="lg:col-span-3">
+            <div class="card p-3 h-full">
+              <div class="flex items-center justify-between px-1 pb-2">
+                <h2 class="font-semibold text-white text-sm">Live preview</h2>
+                <span class="text-[11px] text-slate-500">updates as you chat · selectable text · ATS-safe</span>
+              </div>
+              <iframe id="previewFrame" class="w-full rounded-lg bg-white" style="height: 78vh" title="Resume preview"></iframe>
+            </div>
+          </section>
+
+          <!-- chat -->
+          <section class="lg:col-span-2">
+            <div class="card flex flex-col" style="height: calc(78vh + 44px)">
+              <div class="px-4 py-3 border-b border-line flex items-center gap-2.5">
+                <div class="h-8 w-8 rounded-lg bg-gradient-to-br from-accent to-accent2 grid place-items-center text-ink font-extrabold text-xs">AI</div>
+                <div>
+                  <div class="font-semibold text-white text-sm leading-none">Resume assistant</div>
+                  <div class="text-[11px] text-slate-400 leading-none mt-1">asks questions · edits the preview live</div>
+                </div>
+              </div>
+              <div id="chatLog" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
+              <div id="chatTyping" class="hidden px-4 pb-1">
+                <span class="bubble ai typing inline-flex items-center"><span></span><span></span><span></span></span>
+              </div>
+              <form id="chatForm" class="p-3 border-t border-line flex items-end gap-2">
+                <textarea id="chatInput" rows="1" class="field flex-1 p-2.5 text-sm resize-none max-h-32"
+                  placeholder="Answer the AI, or say what to change…"></textarea>
+                <button id="chatSend" type="submit" class="px-4 py-2.5 rounded-lg bg-accent text-ink font-semibold text-sm disabled:opacity-40">Send</button>
+              </form>
+            </div>
+          </section>
+        </div>
+
+        <!-- full ATS report (collapsible) -->
+        <details class="card mt-5 p-4">
+          <summary class="cursor-pointer font-semibold text-white text-sm select-none">ATS report — breakdown, keywords & what changed</summary>
+          <div class="mt-4 grid md:grid-cols-2 gap-6">
+            <div>
+              <div id="breakdown" class="space-y-2"></div>
+              <div class="mt-5">
+                <div class="text-xs font-semibold text-slate-300 mb-2">Keywords matched</div>
+                <div id="matchedChips" class="flex flex-wrap gap-1.5"></div>
+              </div>
+              <div id="missingWrap" class="mt-4 hidden">
+                <div class="text-xs font-semibold text-slate-300 mb-2">Still missing (honest gaps)</div>
+                <div id="missingChips" class="flex flex-wrap gap-1.5"></div>
+              </div>
+            </div>
+            <div>
+              <div id="changeWrap" class="hidden">
+                <div class="text-xs font-semibold text-slate-300 mb-2">What the agent changed</div>
+                <ul id="changeLog" class="text-xs text-slate-400 space-y-1 list-disc pl-4"></ul>
+              </div>
+              <div id="gapWrap" class="mt-5 hidden">
+                <div class="text-xs font-semibold text-slate-300 mb-2">Recommendations</div>
+                <ul id="gapList" class="text-xs text-slate-400 space-y-1 list-disc pl-4"></ul>
+              </div>
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <footer class="text-center text-xs text-slate-600 mt-10">
+        Truthful tailoring only — no fabricated experience. No tool can guarantee a job; this maximizes ATS fit and
+        presentation. Powered by your IDE's AI.
+      </footer>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

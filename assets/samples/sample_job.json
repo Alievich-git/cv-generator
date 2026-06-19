@@ -1,0 +1,8 @@
+{
+  "jobTitle": "Senior Backend Engineer",
+  "companyName": "NimbusPay",
+  "jobDescription": "NimbusPay builds the payments infrastructure that modern fintechs run on. We are hiring a Senior Backend Engineer to design and scale the distributed backend services that move money reliably and securely at high volume. You will work on systems where correctness, latency, and uptime really matter.",
+  "requirements": "5+ years of backend engineering experience. Expert-level Go. Production experience operating services on Kubernetes and AWS. Strong with PostgreSQL and data modeling. Experience designing and building microservices and REST/gRPC APIs. Familiarity with Kafka or another event-streaming platform. Solid CI/CD and observability practices. Computer Science degree or equivalent experience.",
+  "responsibilities": "Design, build, and operate backend microservices in Go. Own services end to end, including reliability, performance, and on-call. Build and evolve REST and gRPC APIs consumed across the company. Improve CI/CD pipelines and observability. Mentor engineers and raise the engineering bar. Collaborate with product and platform teams.",
+  "aboutCompany": "NimbusPay is a Series B fintech on a mission to make moving money boringly reliable. We value ownership, simplicity, and engineers who care about the details."
+}

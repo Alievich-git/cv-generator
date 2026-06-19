@@ -1,0 +1,34 @@
+Alex Morgan
+Austin, TX | +1 555 0134 | alex.morgan@email.com | linkedin.com/in/alexmorgan | github.com/alexmorgan
+
+SUMMARY
+Full-stack software engineer with 6 years of experience building web applications and backend services. Comfortable across the stack with a focus on reliable APIs and cloud infrastructure.
+
+EXPERIENCE
+Software Engineer, Brightwave Labs — Austin, TX (2020–Present)
+- Built and maintained REST and gRPC APIs in Go and Node.js serving 2M+ monthly requests.
+- Migrated a monolith to distributed, containerized microservices on Kubernetes (EKS) on AWS, cutting deploy times by 60%.
+- Set up CI/CD pipelines with GitHub Actions and improved test coverage from 40% to 85%.
+- Instrumented services with Prometheus and Grafana for observability, cutting incident triage time in half.
+- Worked with PostgreSQL and Redis; optimized slow queries to reduce p95 latency by 35%.
+- Mentored 3 junior engineers and led code reviews.
+
+Web Developer, Pixel & Co — Remote (2018–2020)
+- Built marketing websites and a Shopify storefront for retail clients.
+- Implemented a React component library used across 12 client projects.
+- Managed SEO and Google Analytics reporting for clients.
+
+Junior Developer, Campus IT — Austin, TX (2017–2018)
+- Maintained internal PHP tools and a student portal.
+
+SKILLS
+Languages: Go, JavaScript, TypeScript, Python, SQL, PHP
+Frameworks: Node.js, Express, React
+Cloud/DevOps: AWS, Docker, Kubernetes, GitHub Actions, Terraform
+Databases: PostgreSQL, Redis, MySQL
+
+EDUCATION
+B.S. Computer Science, University of Texas at Austin (2013–2017)
+
+CERTIFICATIONS
+AWS Certified Solutions Architect – Associate (2022)
