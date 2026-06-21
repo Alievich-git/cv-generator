@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * CV Generator — local I/O server.
+ * CV Generator - local I/O server.
  *
  * This server is intentionally "dumb": it only collects inputs and serves
  * outputs. The actual intelligence (reading screenshots, tailoring the
@@ -16,10 +16,12 @@ const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
 const { extractText } = require("./src/extract");
+const { latestRunSummary } = require("./src/runStore");
 
 const ROOT = __dirname;
 const RUNS = path.join(ROOT, "runs");
-const PORT = process.env.PORT || 3333;
+const REQUESTED_PORT = Number(process.env.PORT || 3333);
+const START_PORT = Number.isFinite(REQUESTED_PORT) && REQUESTED_PORT > 0 ? REQUESTED_PORT : 3333;
 
 fs.mkdirSync(RUNS, { recursive: true });
 
@@ -309,9 +311,30 @@ app.get("/api/pending", (req, res) => {
   res.json({ pending });
 });
 
-app.get("/api/health", (req, res) => res.json({ ok: true, port: PORT }));
-
-app.listen(PORT, () => {
-  console.log(`\n  CV Generator is running:  http://localhost:${PORT}\n`);
-  console.log("  Keep this server (and your Cursor chat) open — the chat agent is the engine.\n");
+app.get("/api/runs/latest", (req, res) => {
+  const latest = latestRunSummary(RUNS);
+  if (!latest) return res.status(404).json({ error: "no runs found" });
+  res.json(latest);
 });
+
+let activePort = START_PORT;
+app.get("/api/health", (req, res) => res.json({ ok: true, port: activePort }));
+
+function listen(port, attemptsLeft = 10) {
+  const server = app.listen(port, () => {
+    activePort = port;
+    console.log(`\n  CV Generator dashboard:  http://localhost:${port}\n`);
+    console.log("  Keep this server open for live preview and reports. Do the AI chat in your IDE.\n");
+  });
+
+  server.on("error", (err) => {
+    if (err && err.code === "EADDRINUSE" && attemptsLeft > 0) {
+      console.warn(`  Port ${port} is busy, trying ${port + 1}...`);
+      listen(port + 1, attemptsLeft - 1);
+      return;
+    }
+    throw err;
+  });
+}
+
+listen(START_PORT);

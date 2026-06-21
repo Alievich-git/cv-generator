@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>CV Generator — tailor your resume to any job</title>
+    <title>CV Generator - tailor your resume to any job</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -181,144 +181,59 @@
       <div id="inputView">
         <div class="mb-7">
           <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
-            Build a resume that fits the job like a glove.
+            CV Generator dashboard
           </h1>
           <p class="text-slate-400 mt-1 max-w-2xl">
-            Drop in your current resume and the job details. Your Cursor agent rewrites, reorders and
-            keyword-optimizes it for ATS — truthfully — then you refine it together in a live chat.
+            Do the AI conversation in your IDE. This page shows the live resume preview, ATS score,
+            keywords, report, and agent notes for the latest run.
           </p>
         </div>
 
         <div class="grid lg:grid-cols-5 gap-6">
-          <!-- LEFT: inputs -->
           <section class="lg:col-span-3 space-y-6">
-            <!-- Resume -->
-            <div class="card p-5">
-              <div class="flex items-center gap-2 mb-3">
-                <span class="text-xs font-bold text-ink bg-accent rounded-md px-2 py-0.5">1</span>
-                <h2 class="font-semibold text-white">Your current resume</h2>
-              </div>
-              <div id="resumeDrop" class="dropzone p-6 text-center cursor-pointer">
-                <input id="resumeInput" type="file" accept=".pdf,.docx,.txt,.md" class="hidden" />
-                <div id="resumeEmpty">
-                  <div class="text-slate-300 font-medium">Drop your resume here, or click to browse</div>
-                  <div class="text-xs text-slate-500 mt-1">PDF, DOCX, TXT or MD</div>
-                </div>
-                <div id="resumeChosen" class="hidden">
-                  <div class="text-accent font-semibold" id="resumeName">file.pdf</div>
-                  <button id="resumeRemove" class="text-xs text-slate-400 hover:text-rose-300 mt-1 underline">
-                    remove
-                  </button>
-                </div>
-              </div>
-              <button id="pasteToggle" class="text-xs text-slate-400 hover:text-slate-200 mt-3 underline">
-                or paste resume text instead
-              </button>
-              <textarea
-                id="resumeText"
-                class="field w-full p-3 text-sm mt-2 hidden"
-                rows="6"
-                placeholder="Paste the full text of your current resume…"
-              ></textarea>
+            <div class="card p-6">
+              <h2 class="font-semibold text-white mb-3">Start from your IDE</h2>
+              <p class="text-sm text-slate-400 mb-4">
+                In any agentic IDE that can read this repo's instructions, type:
+              </p>
+              <div class="field p-4 font-mono text-accent text-sm">start cv</div>
+              <p class="text-sm text-slate-400 mt-4">
+                The agent will ask you to attach or paste the resume and the job description or screenshots
+                in the IDE chat. When it starts processing, this dashboard auto-loads the latest run.
+              </p>
             </div>
 
-            <!-- Job info -->
-            <div class="card p-5">
-              <div class="flex items-center gap-2 mb-3">
-                <span class="text-xs font-bold text-ink bg-accent rounded-md px-2 py-0.5">2</span>
-                <h2 class="font-semibold text-white">The job you're applying for</h2>
-              </div>
-
-              <div class="flex gap-2 mb-4">
-                <button data-tab="paste" class="tabbtn active text-sm px-3 py-1.5 rounded-lg border border-transparent text-slate-300">
-                  Paste text
-                </button>
-                <button data-tab="shots" class="tabbtn text-sm px-3 py-1.5 rounded-lg border border-transparent text-slate-300">
-                  LinkedIn screenshots
-                </button>
-              </div>
-
-              <div id="tab-paste" class="space-y-3">
-                <div class="grid sm:grid-cols-2 gap-3">
-                  <input id="jobTitle" class="field w-full p-2.5 text-sm" placeholder="Job title (e.g. Senior Backend Engineer)" />
-                  <input id="companyName" class="field w-full p-2.5 text-sm" placeholder="Company name" />
-                </div>
-                <textarea id="jobDescription" class="field w-full p-3 text-sm" rows="5" placeholder="Job description…"></textarea>
-                <div class="grid sm:grid-cols-2 gap-3">
-                  <textarea id="requirements" class="field w-full p-3 text-sm" rows="4" placeholder="Requirements / qualifications…"></textarea>
-                  <textarea id="responsibilities" class="field w-full p-3 text-sm" rows="4" placeholder="Responsibilities…"></textarea>
-                </div>
-                <textarea id="aboutCompany" class="field w-full p-3 text-sm" rows="3" placeholder="About the company (optional)…"></textarea>
-              </div>
-
-              <div id="tab-shots" class="hidden">
-                <div id="shotDrop" class="dropzone p-6 text-center cursor-pointer">
-                  <input id="shotInput" type="file" accept="image/*" multiple class="hidden" />
-                  <div class="text-slate-300 font-medium">Drop LinkedIn job screenshots here</div>
-                  <div class="text-xs text-slate-500 mt-1">
-                    The agent reads the images directly — capture the description, requirements & responsibilities.
-                  </div>
-                </div>
-                <div id="shotGrid" class="grid grid-cols-3 sm:grid-cols-4 gap-2 mt-3"></div>
-              </div>
-
-              <p class="text-xs text-slate-500 mt-3">Use either or both. More signal = a better-tailored resume.</p>
+            <div class="card p-6">
+              <h2 class="font-semibold text-white mb-3">Waiting for a run</h2>
+              <p id="hint" class="text-sm text-slate-400">
+                If a run already exists, this page will load it automatically. You can also open
+                <span class="font-mono text-slate-300">?run=&lt;id&gt;</span> for a specific run.
+              </p>
             </div>
-
-            <!-- Options -->
-            <div class="card p-5">
-              <div class="flex items-center gap-2 mb-3">
-                <span class="text-xs font-bold text-ink bg-accent rounded-md px-2 py-0.5">3</span>
-                <h2 class="font-semibold text-white">Output options</h2>
-              </div>
-              <div class="flex flex-wrap items-center gap-6">
-                <label class="flex items-center gap-3 text-sm">
-                  <span class="text-slate-300">Accent color</span>
-                  <input id="accent" type="color" value="#1f4d7a" class="h-9 w-12 rounded-md bg-transparent border border-line cursor-pointer" />
-                </label>
-                <label class="flex items-center gap-3 text-sm">
-                  <span class="text-slate-300">Page size</span>
-                  <select id="pageSize" class="field p-2 text-sm">
-                    <option value="Letter">Letter (US)</option>
-                    <option value="A4">A4</option>
-                  </select>
-                </label>
-              </div>
-            </div>
-
-            <button
-              id="runBtn"
-              class="w-full py-3.5 rounded-xl font-bold text-ink bg-gradient-to-r from-accent to-accent2 hover:opacity-95 disabled:opacity-40 disabled:cursor-not-allowed transition"
-              disabled
-            >
-              Run — tailor my resume
-            </button>
-            <p id="hint" class="text-center text-xs text-slate-500">Add a resume and some job details to begin.</p>
           </section>
 
-          <!-- RIGHT: how it works -->
           <section class="lg:col-span-2">
             <div class="card p-5 lg:sticky lg:top-24">
-              <h2 class="font-semibold text-white mb-3">How it works</h2>
+              <h2 class="font-semibold text-white mb-3">IDE-first flow</h2>
               <ol class="space-y-4 text-sm">
                 <li class="flex gap-3">
                   <span class="h-6 w-6 shrink-0 rounded-full bg-panel2 border border-line grid place-items-center text-xs font-bold text-accent">1</span>
-                  <div><span class="text-slate-200 font-medium">Add your resume + the job.</span>
-                    <div class="text-slate-400 text-xs mt-0.5">Paste text or drop LinkedIn screenshots.</div></div>
+                  <div><span class="text-slate-200 font-medium">Type start cv in the IDE.</span>
+                    <div class="text-slate-400 text-xs mt-0.5">The agent boots this dashboard and asks for inputs there.</div></div>
                 </li>
                 <li class="flex gap-3">
                   <span class="h-6 w-6 shrink-0 rounded-full bg-panel2 border border-line grid place-items-center text-xs font-bold text-accent">2</span>
-                  <div><span class="text-slate-200 font-medium">The agent tailors & scores it.</span>
-                    <div class="text-slate-400 text-xs mt-0.5">Truthful rewrite, ATS-optimized, clean one-page PDF.</div></div>
+                  <div><span class="text-slate-200 font-medium">Work with the agent in the IDE.</span>
+                    <div class="text-slate-400 text-xs mt-0.5">Attach the resume, job text, and screenshots. Answer enhancement questions there.</div></div>
                 </li>
                 <li class="flex gap-3">
                   <span class="h-6 w-6 shrink-0 rounded-full bg-panel2 border border-line grid place-items-center text-xs font-bold text-accent">3</span>
-                  <div><span class="text-slate-200 font-medium">Refine it together, live.</span>
-                    <div class="text-slate-400 text-xs mt-0.5">The AI asks smart questions and edits the preview as you chat — all right here, no need to go back to the IDE.</div></div>
+                  <div><span class="text-slate-200 font-medium">Use this page as the viewer.</span>
+                    <div class="text-slate-400 text-xs mt-0.5">Preview, download, ATS score, keywords, and report update as the agent writes files.</div></div>
                 </li>
               </ol>
               <div class="text-[11px] text-slate-500 mt-5 leading-relaxed border-t border-line pt-3">
-                Truthful tailoring only — no fabricated experience. Everything happens in this page.
+                Truthful tailoring only. No fabricated experience. No IDE-specific API required.
               </div>
             </div>
           </section>
@@ -337,8 +252,7 @@
           <div class="bar mt-4"><span id="progressBar" style="width: 5%"></span></div>
           <div id="statusMsg" class="text-sm text-slate-400 mt-3">Waiting for the agent…</div>
           <div class="text-[11px] text-slate-500 mt-6 leading-relaxed border-t border-line pt-3">
-            The agent picks this up automatically — you don't need to do anything. When it's ready, this turns into a
-            live preview with an AI chat to refine it.
+            The IDE agent updates this status as it works. Continue the conversation in the IDE.
           </div>
         </div>
       </div>
@@ -361,7 +275,7 @@
             </div>
           </div>
           <div>
-            <div id="scoreVerdict" class="font-bold text-white text-lg">—</div>
+            <div id="scoreVerdict" class="font-bold text-white text-lg">-</div>
             <div class="text-xs text-slate-400">Match against the job description</div>
           </div>
           <div class="ml-auto flex items-center gap-2">
@@ -377,20 +291,20 @@
             <div class="card p-3 h-full">
               <div class="flex items-center justify-between px-1 pb-2">
                 <h2 class="font-semibold text-white text-sm">Live preview</h2>
-                <span class="text-[11px] text-slate-500">updates as you chat · selectable text · ATS-safe</span>
+                <span class="text-[11px] text-slate-500">updates as the IDE agent edits · selectable text · ATS-safe</span>
               </div>
               <iframe id="previewFrame" class="w-full rounded-lg bg-white" style="height: 78vh" title="Resume preview"></iframe>
             </div>
           </section>
 
-          <!-- chat -->
+          <!-- agent notes -->
           <section class="lg:col-span-2">
             <div class="card flex flex-col" style="height: calc(78vh + 44px)">
               <div class="px-4 py-3 border-b border-line flex items-center gap-2.5">
                 <div class="h-8 w-8 rounded-lg bg-gradient-to-br from-accent to-accent2 grid place-items-center text-ink font-extrabold text-xs">AI</div>
                 <div>
-                  <div class="font-semibold text-white text-sm leading-none">Resume assistant</div>
-                  <div class="text-[11px] text-slate-400 leading-none mt-1">asks questions · edits the preview live</div>
+                  <div class="font-semibold text-white text-sm leading-none">Agent notes</div>
+                  <div class="text-[11px] text-slate-400 leading-none mt-1">read-only here · answer in your IDE</div>
                 </div>
               </div>
               <div id="chatLog" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
@@ -399,8 +313,8 @@
               </div>
               <form id="chatForm" class="p-3 border-t border-line flex items-end gap-2">
                 <textarea id="chatInput" rows="1" class="field flex-1 p-2.5 text-sm resize-none max-h-32"
-                  placeholder="Answer the AI, or say what to change…"></textarea>
-                <button id="chatSend" type="submit" class="px-4 py-2.5 rounded-lg bg-accent text-ink font-semibold text-sm disabled:opacity-40">Send</button>
+                  placeholder="Use your IDE chat for answers and edits." disabled></textarea>
+                <button id="chatSend" type="submit" class="px-4 py-2.5 rounded-lg bg-accent text-ink font-semibold text-sm disabled:opacity-40" disabled>IDE only</button>
               </form>
             </div>
           </section>
@@ -408,7 +322,7 @@
 
         <!-- full ATS report (collapsible) -->
         <details class="card mt-5 p-4">
-          <summary class="cursor-pointer font-semibold text-white text-sm select-none">ATS report — breakdown, keywords & what changed</summary>
+          <summary class="cursor-pointer font-semibold text-white text-sm select-none">ATS report: breakdown, keywords & what changed</summary>
           <div class="mt-4 grid md:grid-cols-2 gap-6">
             <div>
               <div id="breakdown" class="space-y-2"></div>
@@ -436,7 +350,7 @@
       </div>
 
       <footer class="text-center text-xs text-slate-600 mt-10">
-        Truthful tailoring only — no fabricated experience. No tool can guarantee a job; this maximizes ATS fit and
+        Truthful tailoring only. No fabricated experience. No tool can guarantee a job; this maximizes ATS fit and
         presentation. Powered by your IDE's AI.
       </footer>
     </main>
