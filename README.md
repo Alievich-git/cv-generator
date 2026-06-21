@@ -12,8 +12,9 @@ The app is now **IDE-first**:
    chat.
 4. The agent creates a run, tailors the resume, scores it, renders the PDF, and
    asks follow-up questions in the IDE.
-5. The browser dashboard is only a live viewer for the PDF/HTML preview, ATS
-   score, matched/missing keywords, change log, and recommendations.
+5. The dashboard is only a live viewer for the PDF/HTML preview, ATS score,
+   matched/missing keywords, change log, and recommendations. In IDEs with an
+   embedded preview tab, it should open there, not in an external browser.
 
 This avoids the fragile browser-chat loop where a web page waits for an IDE
 agent that may have timed out.
@@ -43,9 +44,9 @@ start cv
 The agent will install dependencies if needed, start the local dashboard, and
 ask for the resume and target job information in the IDE chat.
 
-## What the Browser Does
+## What the Dashboard Does
 
-The browser dashboard shows:
+The dashboard shows:
 
 - live resume preview
 - PDF download link
@@ -55,8 +56,10 @@ The browser dashboard shows:
 - recommendations and gaps
 - read-only agent notes
 
-The browser is **not** the AI chat. Answer questions and request edits in the
-IDE chat.
+The dashboard is **not** the AI chat. Answer questions and request edits in the
+IDE chat. If your IDE has a built-in preview/browser tab, use that for the
+dashboard. External browsers are only a fallback for environments without an
+embedded preview surface, or when you explicitly choose to open one.
 
 ## What the Agent Does
 
@@ -118,7 +121,9 @@ node src/render.js <id>
 ## Dashboard Port
 
 The server tries `3333` first and automatically falls back to the next available
-ports if needed. The active URL is printed when `npm start` runs.
+ports if needed. The active URL is printed when `npm start` runs. Agents should
+open that URL in the IDE preview panel when one exists; they should not launch
+the operating system's external browser from a traditional IDE.
 
 ## Truthfulness Rules
 

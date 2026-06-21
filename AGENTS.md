@@ -32,8 +32,9 @@ When the user types:
 start cv
 ```
 
-do not ask them to use the browser. Boot the dashboard, then ask for the resume
-and job inputs in the IDE chat.
+do not ask them to use an external browser. Boot the dashboard, show it in the
+IDE preview panel when one exists, then ask for the resume and job inputs in the
+IDE chat.
 
 If the user types only `start`, explain briefly that this project now uses
 `start cv`.
@@ -56,10 +57,22 @@ if 3333 is busy. Find the active URL:
 node -e 'const http=require("http");let p=3333;(function tryPort(){http.get(`http://localhost:${p}/api/health`,r=>{let b="";r.on("data",d=>b+=d);r.on("end",()=>{try{const j=JSON.parse(b);console.log(`http://localhost:${j.port}`)}catch{next()}})}).on("error",next);function next(){if(++p<=3343)tryPort();else process.exit(1)}})()'
 ```
 
-Open the printed URL if your environment supports it. Then tell the user:
+Preview rule:
+
+- If the environment is a traditional IDE with an embedded preview/browser tab
+  (for example a files tab, preview tab, and chat tab), open the dashboard URL
+  inside that IDE preview tab only.
+- Do not run OS browser commands such as `open`, `xdg-open`, `start`, or any
+  equivalent external-browser launcher from an IDE environment.
+- If the environment has no embedded preview surface, print the dashboard URL
+  and tell the user they may open it externally if they want the visual preview.
+- If you are unsure whether an embedded preview exists, do not open an external
+  browser. Print the URL and ask the user where they want the preview opened.
+
+Then tell the user:
 
 ```text
-CV Generator dashboard is live at <URL>. Stay in this IDE chat: attach or paste the resume and the target job details/screenshots here, and I will build and refine the CV. The browser is only the live preview and report dashboard.
+CV Generator dashboard is live at <URL>. Stay in this IDE chat: attach or paste the resume and the target job details/screenshots here, and I will build and refine the CV. The dashboard is only the live preview and report view.
 ```
 
 ## Main IDE Flow
@@ -191,8 +204,8 @@ When the user answers questions or requests edits:
    node src/chat.js ID say "Done. I shortened the summary and refreshed the preview."
    ```
 
-Do not wait for browser chat messages. The browser is read-only from the user's
-perspective.
+Do not wait for dashboard chat messages. The dashboard is read-only from the
+user's perspective.
 
 ## Resume JSON Schema
 
@@ -290,4 +303,5 @@ npm test
 
 `server.js` still accepts `/api/run` for backward compatibility, but the primary
 product flow is IDE-first. Do not tell users to upload the resume or answer
-questions in the browser unless they explicitly ask to use the legacy path.
+questions in an external browser unless they explicitly ask to use the legacy
+path.
